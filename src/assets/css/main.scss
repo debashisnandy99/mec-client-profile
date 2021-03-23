@@ -1,0 +1,29 @@
+$height: 100vh;
+
+* {
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+body {
+  font-family: poppins, sans-serif;
+}
+
+.full-height {
+  height: $height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.full-container {
+  height: $height;
+}
+
+.pl-0 {
+  padding-left: 0px !important;
+}
+.pr-0 {
+  padding-right: 0px !important;
+}
