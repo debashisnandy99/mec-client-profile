@@ -31,20 +31,6 @@ const ProfilePage = () => (
             </div>
             <Form.Group as={Row}>
               <label className="col-xl-3 col-lg-3 col-form-label">
-                Signature
-              </label>
-              <div className="col-lg-9 col-xl-6">
-                <Form.Control
-                  className="form-control-solid"
-                  required
-                  size="lg"
-                  type="file"
-                  id="sig"
-                />
-              </div>
-            </Form.Group>
-            <Form.Group as={Row}>
-              <label className="col-xl-3 col-lg-3 col-form-label">
                 Profile Photo
               </label>
               <div className="col-lg-9 col-xl-6">
@@ -54,6 +40,21 @@ const ProfilePage = () => (
                   size="lg"
                   type="file"
                   id="image"
+                />
+              </div>
+            </Form.Group>
+
+            <Form.Group as={Row}>
+              <label className="col-xl-3 col-lg-3 col-form-label">
+                Signature
+              </label>
+              <div className="col-lg-9 col-xl-6">
+                <Form.Control
+                  className="form-control-solid"
+                  required
+                  size="lg"
+                  type="file"
+                  id="sig"
                 />
               </div>
             </Form.Group>

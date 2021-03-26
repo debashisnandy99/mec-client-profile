@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Form, Button } from "react-bootstrap"
 
-const LoginPage = () => (
+const LoginPage = ({setLoginStatus}) => (
   <Form>
     <Form.Group controlId="formBasicEmail">
       <Form.Label>Phone Number</Form.Label>
@@ -13,7 +13,7 @@ const LoginPage = () => (
       <Form.Control type="password" placeholder="Password" />
     </Form.Group>
 
-    <Button variant="primary" type="submit">
+    <Button variant="primary" onClick={()=> setLoginStatus(true)}>
       Submit
     </Button>
   </Form>

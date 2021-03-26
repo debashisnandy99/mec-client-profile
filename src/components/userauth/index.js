@@ -6,26 +6,42 @@ import RegPage from "./reg"
 
 import * as IndexCss from "./index.module.scss"
 
-const AuthPage = () => {
+const AuthPage = ({ setLoginStatus }) => {
   const [isLogin, setPageStatus] = useState(true)
 
   return (
     <Layout>
       <Container>
         <Row>
-          <Col md={12}>{isLogin ? <LoginPage /> : <RegPage />}</Col>
+          <Col md={12}>
+            {isLogin ? (
+              <LoginPage setLoginStatus={val => setLoginStatus(val)} />
+            ) : (
+              <RegPage />
+            )}
+          </Col>
         </Row>
-        <Row className="mt-3">
+        <Row className="mt-3 mb-5">
           <Col>
             {isLogin ? (
               <h6>
                 Don't have MEC ID?{" "}
-                <button className={IndexCss.linkTag} onMouseDown={() => setPageStatus(false)}>Register</button>
+                <button
+                  className={IndexCss.linkTag}
+                  onMouseDown={() => setPageStatus(false)}
+                >
+                  Register
+                </button>
               </h6>
             ) : (
               <h6>
                 Already have MEC ID?{" "}
-                <button className={IndexCss.linkTag} onMouseDown={() => setPageStatus(true)}>Login</button>
+                <button
+                  className={IndexCss.linkTag}
+                  onMouseDown={() => setPageStatus(true)}
+                >
+                  Login
+                </button>
               </h6>
             )}
           </Col>

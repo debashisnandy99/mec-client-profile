@@ -70,4 +70,13 @@ footer {
   width: 100%;
   margin-top: 2rem;
   background-color: white;
+  bottom: 0;
+}
+
+.card {
+  border-width: 0px !important;
+}
+
+.navpointer:hover {
+  cursor: pointer;
 }

@@ -4,7 +4,7 @@ import UserImg from "../../assets/user.svg"
 import DocImg from "../../assets/docs.svg"
 import * as LeftCss from "./left.module.scss"
 
-const LeftPage = () => (
+const LeftPage = ({ changeNavListener, currentNav }) => (
   <Card>
     <Card.Body>
       <div className="d-flex align-items-center">
@@ -46,19 +46,28 @@ const LeftPage = () => (
           <span className={`${LeftCss.genderFont} text-muted`}>Barasat</span>
         </div>
       </div>
-      {["Account Information", "Documents"].map((value, idx) => (
-        <div
-          key={idx}
-          className={`${LeftCss.selectionItem}  d-flex flex-row align-items-center`}
-        >
-          {idx === 0 ? (
-            <UserImg className="mr-2 svg-hover" />
-          ) : (
-            <DocImg className="mr-2 svg-hover" />
-          )}
-          <span className={`${LeftCss.genderFont} align-middle`}>{value}</span>
-        </div>
-      ))}
+      {["Account Information", "Documents"].map(
+        (value, idx) => (
+          <div
+            key={idx}
+            onClick={() => changeNavListener(idx)}
+            className={`${LeftCss.selectionItem} ${
+              currentNav === idx ? LeftCss.active : ""
+            } d-flex flex-row align-items-center navpointer`}
+          >
+            {idx === 0 ? (
+              <UserImg className="mr-2 svg-hover" />
+            ) : (
+              <DocImg className="mr-2 svg-hover" />
+            )}
+            {console.log(currentNav)}
+            <span className={`${LeftCss.genderFont} align-middle`}>
+              {value}
+            </span>
+          </div>
+        ),
+        this
+      )}
     </Card.Body>
   </Card>
 )

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Form, Button } from "react-bootstrap"
+import { Form, Button, Row, Col } from "react-bootstrap"
 
 const RegPage = () => {
   const [validated, setValidated] = useState(false)
@@ -18,6 +18,48 @@ const RegPage = () => {
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Row>
+        <Col md={6}>
+          <Form.Group className="mb-3">
+            <Form.Label>First Name</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              id="fname"
+              placeholder="Enter your first name"
+            />
+            <Form.Control.Feedback type="invalid">
+              Please enter first name.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group className="mb-3">
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              id="lname"
+              placeholder="Enter your last name"
+            />
+            <Form.Control.Feedback type="invalid">
+              Please enter last name.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Form.Group className="mb-3">
+        <Form.Label>Select Gender</Form.Label>
+        <select
+          className="form-control form-select"
+          value="0"
+          aria-label="Male"
+        >
+          <option value="0">Male</option>
+          <option value="1">Female</option>
+          <option value="2">Others</option>
+        </select>
+      </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label>Phone Number*</Form.Label>
         <Form.Control
