@@ -1,3 +1,31 @@
 .custom-crd-footer {
-    background-color: white !important;
+  background-color: white !important;
+}
+
+.phoneIcon {
+  color: rgba(137, 43, 226, 0.884);
+}
+
+.mailIcon {
+  color: rgba(226, 192, 43, 0.884);
+}
+
+.mailIconImg {
+  padding: 10px 13px;
+  border-radius: 50%;
+  background-color: rgba(226, 192, 43, 0.226);
+}
+
+.phoneIconImg {
+  padding: 10px 13px;
+  border-radius: 50%;
+  background-color: rgba(137, 43, 226, 0.226);
+}
+
+.font-contact {
+  font-size: 15px;
+}
+
+.text-size-small {
+  font-size: 13.5px;
 }

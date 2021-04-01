@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { Container, Navbar, Row, Col } from "react-bootstrap"
-import LeftPage from "./left"
+import LeftPage from "./left.js"
 import RightPage from "./right"
 import Registration from "./registration/index"
 import * as ProfileCss from "./index.module.scss"
 
 const ProfileIndexPage = () => {
-  // const [navOptions, setNavOptions] = useState(0)
+  const [navOptions, setNavOptions] = useState(0)
   // console.log(navOptions)
   return (
     <div className={`${ProfileCss.backgroundDiv} full-container`}>
@@ -21,8 +21,8 @@ const ProfileIndexPage = () => {
         </Navbar.Collapse>
       </Navbar>
       <Container className="mt-4">
-        <Registration/>
-        {/* <Row>
+        {/* <Registration/> */}
+        <Row>
           <Col md={3}>
             <LeftPage
               currentNav={navOptions}
@@ -32,11 +32,9 @@ const ProfileIndexPage = () => {
           <Col md={9}>
             <RightPage currentNav={navOptions} />
           </Col>
-        </Row> */}
+        </Row>
       </Container>
-      <footer
-       
-      >
+      <footer>
         <Container>
           <Row className="py-4">
             <Col>2020 &copy; Ankur Biswas</Col>

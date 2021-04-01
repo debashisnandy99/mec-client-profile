@@ -46,7 +46,7 @@ const LeftPage = ({ changeNavListener, currentNav }) => (
           <span className={`${LeftCss.genderFont} text-muted`}>Barasat</span>
         </div>
       </div>
-      {["Account Information", "Documents"].map(
+      {["Contact Information", "Documents"].map(
         (value, idx) => (
           <div
             key={idx}
