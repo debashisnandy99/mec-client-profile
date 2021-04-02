@@ -6,7 +6,7 @@ import * as RightCss from "../right.module.scss"
 
 import FillUpComp from "./fillupcomp"
 
-const IndexPage = () => {
+const IndexPage = ({ setIsFinish }) => {
   const [formNumber, setFormNumber] = useState(0)
 
   return (
@@ -33,12 +33,14 @@ const IndexPage = () => {
               onClick={() => {
                 if (formNumber != 3) {
                   setFormNumber(formNumber + 1)
+                } else {
+                  setIsFinish(true)
                 }
               }}
               type="button"
               className="btn btn-sm btn-info mr-2"
             >
-             {formNumber==3 ? `Finish` : `Submit & Next`} 
+              {formNumber == 3 ? `Finish` : `Submit & Next`}
             </button>
             <button type="button" className="btn btn-sm btn-light">
               Reset

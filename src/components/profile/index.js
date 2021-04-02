@@ -7,6 +7,7 @@ import * as ProfileCss from "./index.module.scss"
 
 const ProfileIndexPage = () => {
   const [navOptions, setNavOptions] = useState(0)
+  const [isFinished, setIsFinish] = useState(false)
   // console.log(navOptions)
   return (
     <div className={`${ProfileCss.backgroundDiv} full-container`}>
@@ -21,20 +22,33 @@ const ProfileIndexPage = () => {
         </Navbar.Collapse>
       </Navbar>
       <Container className="mt-4">
-        {/* <Registration/> */}
-        <Row>
-          <Col md={3}>
-            <LeftPage
-              currentNav={navOptions}
-              changeNavListener={idx => setNavOptions(idx)}
-            />
-          </Col>
-          <Col md={9}>
-            <RightPage currentNav={navOptions} />
-          </Col>
-        </Row>
+        {!isFinished ? (
+          <Registration
+            setIsFinish={isFinish => {
+              setIsFinish(isFinish)
+            }}
+          />
+        ) : (
+          <Row>
+            <Col md={3}>
+              <LeftPage
+                currentNav={navOptions}
+                changeNavListener={idx => setNavOptions(idx)}
+              />
+            </Col>
+            <Col md={9}>
+              <RightPage currentNav={navOptions} />
+            </Col>
+          </Row>
+        )}
       </Container>
-      <footer>
+      <footer
+        style={{
+          position: "fixed",
+          left: 0,
+          bottom: 0,
+        }}
+      >
         <Container>
           <Row className="py-4">
             <Col>2020 &copy; Ankur Biswas</Col>

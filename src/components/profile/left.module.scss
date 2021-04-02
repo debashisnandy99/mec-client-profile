@@ -25,12 +25,15 @@
   padding: 0.75rem 1.5rem;
 }
 
+.sub-selection-item {
+  padding: 0.4rem 1.5rem;
+}
 .active {
   background-color: rgb(196, 214, 248);
   border-radius: 6px;
 }
 
-.active svg g [fill] {
+.active .iconColor [fill] {
   fill: rgb(0, 86, 247) !important;
 }
 .selection-item svg g [fill] {
