@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Container, Navbar, Row, Col } from "react-bootstrap"
+import { Container, Navbar, Row, Col, Button } from "react-bootstrap"
 import LeftPage from "./left.js"
 import RightPage from "./right"
 import Registration from "./registration/index"
@@ -7,7 +7,7 @@ import * as ProfileCss from "./index.module.scss"
 
 const ProfileIndexPage = () => {
   const [navOptions, setNavOptions] = useState(0)
-  const [isFinished, setIsFinish] = useState(false)
+  const [isFinished, setIsFinish] = useState(true)
   // console.log(navOptions)
   return (
     <div className={`${ProfileCss.backgroundDiv} full-container`}>
@@ -15,6 +15,15 @@ const ProfileIndexPage = () => {
         <Navbar.Text>MEC ID: Unavailable</Navbar.Text>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
+          <Button
+            onClick={() => {
+              setIsFinish(!isFinished)
+            }}
+            className="mr-3"
+            size="sm"
+          >
+            {isFinished ? "Complete Profile" : "Back To Profile"}
+          </Button>
           <Navbar.Text>
             Hi, <span className={ProfileCss.boldText}>Mark Otto</span>{" "}
             <span className={ProfileCss.nameBox}>M</span>

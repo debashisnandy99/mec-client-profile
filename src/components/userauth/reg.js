@@ -1,16 +1,55 @@
 import React, { useState } from "react"
-import { Form, Button, Row, Col } from "react-bootstrap"
+import { Form, Button, Row, Col, Alert } from "react-bootstrap"
+import axios from "../../services/api"
 
 const RegPage = () => {
   const [validated, setValidated] = useState(false)
   const [password, checkPassword] = useState()
   const [repassword, checkRePassword] = useState()
+  const [gender, setGender] = useState("Male")
+  const [isSuccess, setSuccessStatus] = useState(false)
+  const [successMsg, setSuccessMsg] = useState("")
+  const [isDataSending, setDataSendingStatus] = useState(false)
 
   const handleSubmit = event => {
     const form = event.currentTarget
     if (form.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
+    } else {
+      event.preventDefault()
+      event.stopPropagation()
+      let target = event.target
+      setDataSendingStatus(true)
+
+      axios
+        .put(
+          "/auth/signup",
+          {
+            name: `${target.fname.value} ${target.lname.value}`,
+            gender: gender,
+            phone: target.phone.value,
+            password: target.password.value,
+          },
+          {
+            headers: {
+              "content-type": "application/json",
+            },
+          }
+        )
+        .then(res => {
+          setSuccessMsg(
+            "User Created Successfully. Please Login to your dashboard"
+          )
+          setSuccessStatus(true)
+          console.log(res)
+          setDataSendingStatus(false)
+        })
+        .catch(err => {
+          setDataSendingStatus(false)
+          if (err.response != undefined)
+            setSuccessMsg(err.response.data.data[0].msg)
+        })
     }
 
     setValidated(true)
@@ -18,6 +57,19 @@ const RegPage = () => {
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Row>
+        <Col>
+          {successMsg ? (
+            isSuccess ? (
+              <Alert variant="success">{successMsg}</Alert>
+            ) : (
+              <Alert variant="danger">{successMsg}</Alert>
+            )
+          ) : (
+            <></>
+          )}
+        </Col>
+      </Row>
       <Row>
         <Col md={6}>
           <Form.Group className="mb-3">
@@ -52,7 +104,8 @@ const RegPage = () => {
         <Form.Label>Select Gender</Form.Label>
         <select
           className="form-control form-select"
-          value="0"
+          value={gender}
+          onChange={val => setGender(val.target.value)}
           aria-label="Male"
         >
           <option value="0">Male</option>
@@ -108,7 +161,7 @@ const RegPage = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant="primary" type="submit">
+      <Button disabled={isDataSending} variant="primary" type="submit">
         Submit
       </Button>
     </Form>
