@@ -1,9 +1,12 @@
-import React, { useState } from "react"
+import { faPrescriptionBottleAlt } from "@fortawesome/free-solid-svg-icons"
+import React, { useState, useEffect } from "react"
 import { Container, Form, Row } from "react-bootstrap"
 
-const OtherInfoComp = () => {
-  const [isLogin, setLoginStatus] = useState(false)
-
+const OtherInfoComp = ({ user }) => {
+  const [fstat, setFstat] = useState(user.mstatus)
+  const [mstat, setMstat] = useState(user.fstatus)
+  const [oneTime, setTime] = useState(true)
+  const dob = user.dob.split("-")[0]
   return (
     <Container>
       <div className="card-body">
@@ -14,7 +17,9 @@ const OtherInfoComp = () => {
           <div className="col-lg-2 col-xl-2">
             <select
               className="form-control form-select form-control-solid form-control-lg form-cu-padding"
-              value="0"
+              id="fstatus"
+              defaultValue={fstat}
+              onChange={(val)=> setFstat(val.target.value)}
               aria-label="Mr."
             >
               <option value="0">Mr.</option>
@@ -26,6 +31,8 @@ const OtherInfoComp = () => {
             <Form.Control
               type="text"
               id="faname"
+              required
+              defaultValue={user.fname}
               className="form-control-solid"
               placeholder="Enter father name"
               size="lg"
@@ -40,7 +47,9 @@ const OtherInfoComp = () => {
           <div className="col-lg-6 col-xl-6">
             <Form.Control
               type="text"
-              id="fmed"
+              id="fmecID"
+              required={((fstat==0) && (dob>1987))}
+              defaultValue={user.fmecID}
               className="form-control-solid"
               placeholder="Enter father mec id"
               size="lg"
@@ -55,7 +64,9 @@ const OtherInfoComp = () => {
           <div className="col-lg-2 col-xl-2">
             <select
               className="form-control form-select form-control-solid form-control-lg form-cu-padding"
-              value="0"
+              id="mstatus"
+              defaultValue={mstat}
+              onChange={(val)=> setMstat(val.target.value)}
               aria-label="Mr."
             >
               <option value="0">Mrs.</option>
@@ -67,6 +78,8 @@ const OtherInfoComp = () => {
             <Form.Control
               type="text"
               id="mname"
+              required
+              defaultValue={user.mname}
               className="form-control-solid"
               placeholder="Enter Mother name"
               size="lg"
@@ -81,7 +94,9 @@ const OtherInfoComp = () => {
           <div className="col-lg-6 col-xl-6">
             <Form.Control
               type="text"
-              id="mmed"
+              id="mmecID"
+              required={((mstat==0) && (dob>1987))}
+              defaultValue={user.mmecID}
               className="form-control-solid"
               placeholder="Enter mother mec id"
               size="lg"

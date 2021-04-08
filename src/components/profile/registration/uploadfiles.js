@@ -43,7 +43,7 @@ const OtherInfoComp = () => {
                 ref={photoUpload}
                 required
                 type="file"
-                id="image"
+                id="images"
               />
             </div>
           </div>
@@ -69,7 +69,7 @@ const OtherInfoComp = () => {
                 className="hide-input"
                 required
                 type="file"
-                id="sig"
+                id="signature"
               />
             </div>
           </div>

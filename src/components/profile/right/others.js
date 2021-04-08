@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPhone, faAt } from "@fortawesome/free-solid-svg-icons"
 import * as RightCss from "../right.module.scss"
 
-const OthersPage = () => (
+const OthersPage = ({user}) => (
   <Container>
     <Row>
       <Col md={6}>
@@ -20,7 +20,9 @@ const OthersPage = () => (
               <div
                 className={`col-lg-6 text-muted col-xl-6 ${RightCss.textSizeSmall}`}
               >
-                John Doe
+                {
+                  !user.fathersName? "N/A" : user.fathersName
+                }
               </div>
             </Row>
             <Row className="mt-2">
@@ -28,7 +30,9 @@ const OthersPage = () => (
               <div
                 className={`col-lg-6 text-muted col-xl-6 ${RightCss.textSizeSmall}`}
               >
-                1425987456DFD478
+                {
+                  !user.fathersMecId? "N/A" : user.fathersMecId
+                }
               </div>
             </Row>
             <Row className="mt-2">
@@ -36,7 +40,9 @@ const OthersPage = () => (
               <div
                 className={`col-lg-6 text-muted col-xl-6 ${RightCss.textSizeSmall}`}
               >
-                Jane Doe
+                {
+                  !user.mothersName? "N/A" : user.mothersName
+                }
               </div>
             </Row>
 
@@ -45,7 +51,9 @@ const OthersPage = () => (
               <div
                 className={`col-lg-6 text-muted col-xl-6 ${RightCss.textSizeSmall}`}
               >
-                3728987456GFS479
+                {
+                  !user.mothersMecId? "N/A" : user.mothersMecId
+                }
               </div>
             </Row>
           </Card.Body>
@@ -62,7 +70,9 @@ const OthersPage = () => (
               <div
                 className={`col-lg-8 text-muted col-xl-8 ${RightCss.textSizeSmall}`}
               >
-                MALE
+                {
+                  !user.gender? "N/A" : user.gender
+                }
               </div>
             </Row>
             <Row className="mt-2">
@@ -70,7 +80,9 @@ const OthersPage = () => (
               <div
                 className={`col-lg-8 text-muted col-xl-8 ${RightCss.textSizeSmall}`}
               >
-                11-02-1996
+                {
+                  !user.dob? "N/A" : user.dob
+                }
               </div>
             </Row>
             

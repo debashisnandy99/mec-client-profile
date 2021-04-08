@@ -1,16 +1,166 @@
 import React, { useState } from "react"
-import { Card, Container, Form, Col, Row } from "react-bootstrap"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPhone, faAt } from "@fortawesome/free-solid-svg-icons"
+import { Card, ProgressBar, Form } from "react-bootstrap"
 import * as RightCss from "../right.module.scss"
+import {
+  firstFromSubmit,
+  secondFromSubmit,
+  thirdFormSubmit,
+  forthFormSubmit,
+} from "./utils/utils"
 
 import FillUpComp from "./fillupcomp"
 
-const IndexPage = ({ setIsFinish }) => {
+const IndexPage = ({ setIsFinish, user }) => {
   const [formNumber, setFormNumber] = useState(0)
+  const [isSuccess, setSuccessStatus] = useState(false)
+  const [successMsg, setSuccessMsg] = useState("")
+  const [isDataSending, setDataSendingStatus] = useState(false)
+  const [validated, setValidated] = useState(false)
+  const [firstForm, setFirstForm] = useState({
+    fname: user.name.split(" ")[0],
+    lname: user.name.split(" ")[1],
+    gender: user.gender,
+    dob: !user.dob ? "" : user.dob,
+    phone: user.phone,
+    email: !user.email ? "" : user.email,
+  })
+  const [secondForm, setSecondForm] = useState({
+    address: !user.address ? "" : user.address,
+    district: !user.district ? "" : user.district,
+    state: !user.state ? "" : user.state,
+    isAddressSame: user.isAddressSame,
+    paddress: !user.paddress ? "" : user.paddress,
+    pdistrict: !user.pdistrict ? "" : user.pdistrict,
+    pstate: !user.pstate ? "" : user.pstate,
+  })
+  const [thirdForm, setThirdForm] = useState({
+    fname: !user.fathersName ? "" : user.fathersName,
+    mname: !user.mothersName ? "" : user.mothersName,
+    fstatus: !user.fathersStatus ? "0" : user.fathersStatus,
+    mstatus: !user.mothersStatus ? "0" : user.mothersStatus,
+    fmecID: !user.fathersMecId ? "" : user.fathersMecId,
+    mmecID: !user.mothersMecId ? "" : user.mothersMecId,
+    dob: firstForm.dob,
+  })
+  const handleSubmit = event => {
+    const form = event.currentTarget
 
+    setDataSendingStatus(true)
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+      setDataSendingStatus(false)
+
+      setValidated(true)
+    } else {
+      event.preventDefault()
+      event.stopPropagation()
+      let target = event.target
+      if (formNumber == 0) {
+        firstFromSubmit({
+          name: target.fname.value + " " + target.lname.value,
+          gender: target.gender.value,
+          phone: target.phone.value,
+          dob: target.dob.value,
+          email: target.email.value,
+        }).then(val => {
+          if (val) {
+            setFirstForm({
+              fname: target.fname.value,
+              lname: target.lname.value,
+              gender: target.gender.value,
+              phone: target.phone.value,
+              dob: target.dob.value,
+              email: target.email.value,
+            })
+            if (formNumber != 3) {
+              setFormNumber(formNumber + 1)
+            } else {
+              setIsFinish(true)
+            }
+            setValidated(false)
+          }
+
+          setDataSendingStatus(false)
+        })
+      } else if (formNumber == 1) {
+        let isCheck = target.isAddressSame.checked
+        console.log(isCheck)
+        secondFromSubmit({
+          address: target.address.value,
+          district: target.district.value,
+          state: target.state.value,
+          isAddressSame: isCheck.toString(),
+          paddress: isCheck ? target.paddress.value : "",
+          pstate: isCheck ? target.pstate.value : "",
+          pdistrict: isCheck ? target.pdistrict.value : "",
+        }).then(val => {
+          if (val) {
+            setSecondForm({
+              address: target.address.value,
+              district: target.district.value,
+              state: target.state.value,
+              isAddressSame: isCheck,
+              paddress: isCheck ? target.paddress.value : "",
+              pstate: isCheck ? target.pstate.value : "",
+              pdistrict: isCheck ? target.pdistrict.value : "",
+            })
+            if (formNumber != 3) {
+              setFormNumber(formNumber + 1)
+            } else {
+              setIsFinish(true)
+            }
+            setValidated(false)
+          }
+
+          setDataSendingStatus(false)
+        })
+      } else if (formNumber == 2) {
+        thirdFormSubmit({
+          mname: target.mname.value,
+          fname: target.faname.value,
+          fmecID: target.fmecID.value,
+          mmecID: target.mmecID.value,
+          mstatus: target.mstatus.value,
+          fstatus: target.fstatus.value,
+        }).then(val => {
+          if (val) {
+            setThirdForm({
+              mname: target.mname.value,
+              fname: target.faname.value,
+              fmecID: target.fmecID.value,
+              mmecID: target.mmecID.value,
+              mstatus: target.mstatus.value,
+              fstatus: target.fstatus.value,
+              dob: firstForm.dob,
+            })
+            if (formNumber != 3) {
+              setFormNumber(formNumber + 1)
+            } else {
+              setIsFinish(true)
+            }
+            setValidated(false)
+          }
+
+          setDataSendingStatus(false)
+        })
+      } else if (formNumber == 3) {
+        let form_data = new FormData()
+        form_data.append("photo", target.images.files[0])
+        form_data.append("signature", target.signature.files[0])
+        forthFormSubmit(form_data).then(val => {
+          if (val) {
+            setIsFinish(true)
+            setValidated(false)
+          }
+
+          setDataSendingStatus(false)
+        })
+      }
+    }
+  }
   return (
-    <>
+    <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Card>
         <div
           className={`${RightCss.customCrdFooter} card-header d-flex justify-content-between align-items-center`}
@@ -30,14 +180,8 @@ const IndexPage = ({ setIsFinish }) => {
             )}
 
             <button
-              onClick={() => {
-                if (formNumber != 3) {
-                  setFormNumber(formNumber + 1)
-                } else {
-                  setIsFinish(true)
-                }
-              }}
-              type="button"
+              type="submit"
+              disabled={isDataSending}
               className="btn btn-sm btn-info mr-2"
             >
               {formNumber == 3 ? `Finish` : `Submit & Next`}
@@ -47,11 +191,19 @@ const IndexPage = ({ setIsFinish }) => {
             </button>
           </div>
         </div>
+
+        {!isDataSending ? <></> : <ProgressBar animated now={100} />}
+
         <Card.Body>
-          <FillUpComp formNumber={formNumber} />
+          <FillUpComp
+            thirdForm={thirdForm}
+            secondForm={secondForm}
+            firstForm={firstForm}
+            formNumber={formNumber}
+          />
         </Card.Body>
       </Card>
-    </>
+    </Form>
   )
 }
 

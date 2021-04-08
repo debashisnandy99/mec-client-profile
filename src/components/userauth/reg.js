@@ -42,7 +42,6 @@ const RegPage = () => {
             "User Created Successfully. Please Login to your dashboard"
           )
           setSuccessStatus(true)
-          console.log(res)
           setDataSendingStatus(false)
         })
         .catch(err => {

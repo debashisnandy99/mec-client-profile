@@ -3,20 +3,21 @@ import { Container, Form, Row } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPhone, faAt } from "@fortawesome/free-solid-svg-icons"
 
-const BasicInfoComp = () => {
+const BasicInfoComp = ({ user }) => {
   const [isLogin, setLoginStatus] = useState(false)
 
+  
   return (
     <Container>
       <div className="card-body">
-    
-
         <Form.Group as={Row}>
           <label className="col-xl-3 col-lg-3 col-form-label">First Name</label>
           <div className="col-lg-9 col-xl-6">
             <Form.Control
+              required
               type="text"
               id="fname"
+              defaultValue={user.fname}
               className="form-control-solid"
               placeholder="Enter First Name"
               size="lg"
@@ -28,8 +29,10 @@ const BasicInfoComp = () => {
           <label className="col-xl-3 col-lg-3 col-form-label">Last Name</label>
           <div className="col-lg-9 col-xl-6">
             <Form.Control
+              required
               type="text"
               id="lname"
+              defaultValue={user.lname}
               className="form-control-solid"
               placeholder="Enter last name"
               size="lg"
@@ -42,7 +45,8 @@ const BasicInfoComp = () => {
           <div className="col-lg-9 col-xl-6">
             <select
               className="form-control form-select form-control-solid form-control-lg form-cu-padding"
-              value="0"
+              id="gender"
+              defaultValue={user.gender}
               aria-label="Male"
             >
               <option value="0">Male</option>
@@ -58,8 +62,10 @@ const BasicInfoComp = () => {
           </label>
           <div className="col-lg-9 col-xl-6">
             <Form.Control
+              required
               className="form-control-solid"
               id="dob"
+              defaultValue={user.dob}
               type="date"
               placeholder="Enter DOB"
               size="lg"
@@ -87,10 +93,12 @@ const BasicInfoComp = () => {
                 </span>
               </div>
               <Form.Control
+                required
                 type="tel"
                 id="phone"
+                defaultValue={user.phone}
                 className="form-control-solid"
-                placeholder="+91 8578 956 325"
+                pattern="[0-9]{10}"
                 size="lg"
               />
             </div>
@@ -110,6 +118,7 @@ const BasicInfoComp = () => {
               <Form.Control
                 type="email"
                 id="email"
+                defaultValue={user.email}
                 className="form-control-solid"
                 placeholder="Enter Your e-mail"
                 size="lg"

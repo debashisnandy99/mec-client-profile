@@ -5,9 +5,10 @@ import RightPage from "./right"
 import Registration from "./registration/index"
 import * as ProfileCss from "./index.module.scss"
 
-const ProfileIndexPage = () => {
+const ProfileIndexPage = ({ user,refreshPage }) => {
   const [navOptions, setNavOptions] = useState(0)
   const [isFinished, setIsFinish] = useState(true)
+  const loadUser = () => {}
   // console.log(navOptions)
   return (
     <div className={`${ProfileCss.backgroundDiv} full-container`}>
@@ -15,15 +16,19 @@ const ProfileIndexPage = () => {
         <Navbar.Text>MEC ID: Unavailable</Navbar.Text>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          <Button
-            onClick={() => {
-              setIsFinish(!isFinished)
-            }}
-            className="mr-3"
-            size="sm"
-          >
-            {isFinished ? "Complete Profile" : "Back To Profile"}
-          </Button>
+          {user.isVerified ? (
+            <></>
+          ) : (
+            <Button
+              onClick={() => {
+                setIsFinish(!isFinished)
+              }}
+              className="mr-3"
+              size="sm"
+            >
+              {isFinished ? "Complete Profile" : "Back To Profile"}
+            </Button>
+          )}
           <Navbar.Text>
             Hi, <span className={ProfileCss.boldText}>Mark Otto</span>{" "}
             <span className={ProfileCss.nameBox}>M</span>
@@ -33,8 +38,10 @@ const ProfileIndexPage = () => {
       <Container className="mt-4">
         {!isFinished ? (
           <Registration
+            user={user}
             setIsFinish={isFinish => {
               setIsFinish(isFinish)
+              refreshPage()
             }}
           />
         ) : (
@@ -46,7 +53,7 @@ const ProfileIndexPage = () => {
               />
             </Col>
             <Col md={9}>
-              <RightPage currentNav={navOptions} />
+              <RightPage user={user} currentNav={navOptions} />
             </Col>
           </Row>
         )}

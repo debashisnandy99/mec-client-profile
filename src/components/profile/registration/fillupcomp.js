@@ -6,14 +6,14 @@ import OtherInfo from "./otherinfo"
 import AddressInfo from "./addressinfo"
 import UploadFiles from "./uploadfiles"
 
-const FillUpComp = ({ formNumber }) => {
+const FillUpComp = ({thirdForm, secondForm, formNumber, firstForm }) => {
   switch (formNumber) {
     case 0:
-      return <BasicInfo />
+      return <BasicInfo user={firstForm}/>
     case 1:
-      return <AddressInfo />
+      return <AddressInfo user={secondForm} />
     case 2:
-      return <OtherInfo />
+      return <OtherInfo user={thirdForm}/>
     case 3:
       return <UploadFiles />
     default:

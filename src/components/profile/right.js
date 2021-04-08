@@ -9,13 +9,13 @@ import DisplayDocs from "./right/displaydocs"
 import DocUploadPage from "./right/docupload"
 import ContactPage from "./right/contact"
 
-const RightPage = ({ currentNav }) => {
+const RightPage = ({ currentNav, user }) => {
     if(currentNav === 0) {
-        return (<ContactPage/>);
+        return (<ContactPage user={user}/>);
     } else if(currentNav === 1) {
-        return (<ProfileDetails/>);
+        return (<ProfileDetails user={user}/>);
     } else if(currentNav === 2) {
-        return (<OthersPage/>);
+        return (<OthersPage user={user}/>);
     } else if(currentNav === 3) {
         return (<DisplayDocs/>);
     } else if(currentNav === 4) {

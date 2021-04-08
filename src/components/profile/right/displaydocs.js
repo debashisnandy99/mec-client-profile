@@ -5,7 +5,7 @@ import { faPhone, faAt } from "@fortawesome/free-solid-svg-icons"
 import * as RightCss from "../right.module.scss"
 import * as LeftCss from "../left.module.scss"
 
-const DisplayDocsPage = () => (
+const DisplayDocsPage = ({user}) => (
   <Container>
     <Row>
       <Col md={6}>

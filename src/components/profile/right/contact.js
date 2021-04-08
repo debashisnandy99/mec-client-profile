@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPhone, faAt } from "@fortawesome/free-solid-svg-icons"
 import * as RightCss from "../right.module.scss"
 
-const ContactPage = () => (
+const ContactPage = ({ user }) => (
   <Container>
     <Row>
       <Col md={6}>
@@ -20,7 +20,7 @@ const ContactPage = () => (
               <div
                 className={`col-lg-8 text-muted col-xl-8 ${RightCss.textSizeSmall}`}
               >
-                5T Mathur Babu Lane, (Near Loknath Baba)
+                {!user.address ? "N/A" : user.address}
               </div>
             </Row>
             <Row className="mt-2">
@@ -28,7 +28,7 @@ const ContactPage = () => (
               <div
                 className={`col-lg-8 text-muted col-xl-8 ${RightCss.textSizeSmall}`}
               >
-                West Bengal
+                {!user.state ? "N/A" : user.state}
               </div>
             </Row>
             <Row className="mt-2">
@@ -36,7 +36,7 @@ const ContactPage = () => (
               <div
                 className={`col-lg-8 text-muted col-xl-8 ${RightCss.textSizeSmall}`}
               >
-                Kolkata
+                {!user.district ? "N/A" : user.district}
               </div>
             </Row>
           </Card.Body>
@@ -55,7 +55,7 @@ const ContactPage = () => (
               <div
                 className={`col-lg-8 text-muted col-xl-8 ${RightCss.textSizeSmall}`}
               >
-                5T Mathur Babu Lane, (Near Loknath Baba)
+                {!user.paddress ? "N/A" : user.paddress}
               </div>
             </Row>
             <Row className="mt-2">
@@ -63,7 +63,7 @@ const ContactPage = () => (
               <div
                 className={`col-lg-8 text-muted col-xl-8 ${RightCss.textSizeSmall}`}
               >
-                West Bengal
+                {!user.pstate ? "N/A" : user.pstate}
               </div>
             </Row>
             <Row className="mt-2">
@@ -71,7 +71,7 @@ const ContactPage = () => (
               <div
                 className={`col-lg-8 text-muted col-xl-8 ${RightCss.textSizeSmall}`}
               >
-                Kolkata
+                {!user.pdistrict ? "N/A" : user.pdistrict}
               </div>
             </Row>
           </Card.Body>
@@ -93,7 +93,7 @@ const ContactPage = () => (
                       />
                     </span>
                     <span className={`${RightCss.fontContact} text-muted`}>
-                      +91 8583858959
+                      {!user.phone ? "N/A" : "+91 " + user.phone}
                     </span>
                   </div>
                 </Col>
@@ -116,7 +116,7 @@ const ContactPage = () => (
                       />
                     </span>
                     <span className={`${RightCss.fontContact} text-muted`}>
-                      papai983g@gmail.com
+                      {!user.email ? "N/A" : user.email}
                     </span>
                   </div>
                 </Col>
