@@ -5,7 +5,7 @@ import RightPage from "./right"
 import Registration from "./registration/index"
 import * as ProfileCss from "./index.module.scss"
 
-const ProfileIndexPage = ({ user,refreshPage }) => {
+const ProfileIndexPage = ({ user, refreshPage }) => {
   const [navOptions, setNavOptions] = useState(0)
   const [isFinished, setIsFinish] = useState(true)
   const loadUser = () => {}
@@ -30,8 +30,10 @@ const ProfileIndexPage = ({ user,refreshPage }) => {
             </Button>
           )}
           <Navbar.Text>
-            Hi, <span className={ProfileCss.boldText}>Mark Otto</span>{" "}
-            <span className={ProfileCss.nameBox}>M</span>
+            Hi, <span className={ProfileCss.boldText}>{user.name}</span>{" "}
+            <span className={ProfileCss.nameBox}>
+              {user.name.substring(0, 1)}
+            </span>
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
@@ -48,6 +50,7 @@ const ProfileIndexPage = ({ user,refreshPage }) => {
           <Row>
             <Col md={3}>
               <LeftPage
+                user={user}
                 currentNav={navOptions}
                 changeNavListener={idx => setNavOptions(idx)}
               />

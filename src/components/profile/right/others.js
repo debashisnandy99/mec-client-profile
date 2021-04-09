@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPhone, faAt } from "@fortawesome/free-solid-svg-icons"
 import * as RightCss from "../right.module.scss"
 
-const OthersPage = ({user}) => (
+const OthersPage = ({user}) => {
+  const gender = ["MALE","FEMALE","OTHERS"]
+  return (
   <Container>
     <Row>
       <Col md={6}>
@@ -71,7 +73,7 @@ const OthersPage = ({user}) => (
                 className={`col-lg-8 text-muted col-xl-8 ${RightCss.textSizeSmall}`}
               >
                 {
-                  !user.gender? "N/A" : user.gender
+                  !user.gender? "N/A" : gender[user.gender]
                 }
               </div>
             </Row>
@@ -91,6 +93,6 @@ const OthersPage = ({user}) => (
       </Col>
     </Row>
    </Container>
-)
+)}
 
 export default OthersPage

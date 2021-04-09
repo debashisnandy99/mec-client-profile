@@ -11,7 +11,7 @@ import { toggleFetchUser } from "../state/app"
 
 const IndexPage = () => {
   const [loginStatus, setLoginStatus] = useState(false)
-  const [isLoading, setLoadingStatus] = useState(false)
+  const [isLoading, setLoadingStatus] = useState(true)
   const [isError, setErrorStatus] = useState(false)
   const [oneTime, setTime] = useState(true)
   const [user, setUser] = useState()

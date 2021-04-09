@@ -16,6 +16,8 @@ const RegPage = () => {
     if (form.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
+
+      setValidated(true)
     } else {
       event.preventDefault()
       event.stopPropagation()
@@ -50,8 +52,6 @@ const RegPage = () => {
             setSuccessMsg(err.response.data.data[0].msg)
         })
     }
-
-    setValidated(true)
   }
 
   return (

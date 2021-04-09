@@ -7,7 +7,7 @@ import {
   handleLogin,
 } from "../../services/logauth"
 
-const LoginPage = ({setLoginStatus}) => {
+const LoginPage = ({ setLoginStatus }) => {
   const [validated, setValidated] = useState(false)
   const [isSuccess, setSuccessStatus] = useState(false)
   const [successMsg, setSuccessMsg] = useState("")
@@ -17,13 +17,15 @@ const LoginPage = ({setLoginStatus}) => {
     if (form.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
+
+      setValidated(true)
     } else {
       event.preventDefault()
       event.stopPropagation()
       let target = event.target
       setDataSendingStatus(true)
 
-      handleLogin(target.phone.value, target.password.value).then(value=>{
+      handleLogin(target.phone.value, target.password.value).then(value => {
         if (value) {
           setSuccessMsg(
             "User Created Successfully. Please Login to your dashboard"
@@ -33,14 +35,10 @@ const LoginPage = ({setLoginStatus}) => {
           setLoginStatus(true)
         } else {
           setDataSendingStatus(false)
-          setSuccessMsg(
-            "Somethiing went wrong"
-          )
+          setSuccessMsg("Somethiing went wrong")
         }
       })
     }
-
-    setValidated(true)
   }
 
   return (
