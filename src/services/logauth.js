@@ -32,12 +32,14 @@ export const handleLogin = async (phone, password) => {
       token: data.data.token,
       uid: data.data.userId,
     })
-    return true
+    return data.data.user
   } catch (error) {
     
-    return false
+    return {}
   }
 }
+
+
 
 export const isLoggedIn = () => {
   const user = getUser()

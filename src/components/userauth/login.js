@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Form, Button, Row, Col, Alert } from "react-bootstrap"
+import { navigate, Link } from "gatsby"
 import {
   getUser,
   isLoggedIn,
@@ -26,16 +27,17 @@ const LoginPage = ({ setLoginStatus }) => {
       setDataSendingStatus(true)
 
       handleLogin(target.phone.value, target.password.value).then(value => {
-        if (value) {
+        if (value.name) {
           setSuccessMsg(
-            "User Created Successfully. Please Login to your dashboard"
+            "Logged In Successfully"
           )
           setSuccessStatus(true)
           setDataSendingStatus(false)
-          setLoginStatus(true)
+          setLoginStatus(value)
+          
         } else {
           setDataSendingStatus(false)
-          setSuccessMsg("Somethiing went wrong")
+          setSuccessMsg("Something went wrong")
         }
       })
     }

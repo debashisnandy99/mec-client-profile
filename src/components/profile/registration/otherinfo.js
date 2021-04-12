@@ -1,6 +1,6 @@
 import { faPrescriptionBottleAlt } from "@fortawesome/free-solid-svg-icons"
 import React, { useState, useEffect } from "react"
-import { Container, Form, Row } from "react-bootstrap"
+import { Container, Form, Row, Button } from "react-bootstrap"
 
 const OtherInfoComp = ({ user }) => {
   const [fstat, setFstat] = useState(user.mstatus)
@@ -19,7 +19,7 @@ const OtherInfoComp = ({ user }) => {
               className="form-control form-select form-control-solid form-control-lg form-cu-padding"
               id="fstatus"
               defaultValue={fstat}
-              onChange={(val)=> setFstat(val.target.value)}
+              onChange={val => setFstat(val.target.value)}
               aria-label="Mr."
             >
               <option value="0">Mr.</option>
@@ -41,19 +41,22 @@ const OtherInfoComp = ({ user }) => {
         </Form.Group>
 
         <Form.Group as={Row}>
-          <label className="col-xl-3 col-lg-3 col-form-label">
+          <label className="col-lg-3 col-form-label">
             Father MEC ID
           </label>
-          <div className="col-lg-6 col-xl-6">
+          <div className="col-lg-5">
             <Form.Control
               type="text"
               id="fmecID"
-              required={((fstat==0) && (dob>1987))}
+              required={fstat == 0 && dob > 1987}
               defaultValue={user.fmecID}
               className="form-control-solid"
               placeholder="Enter father mec id"
               size="lg"
             />
+          </div>
+          <div className="col-lg-2">
+            <Button type="sm">Verify</Button>
           </div>
         </Form.Group>
 
@@ -66,7 +69,7 @@ const OtherInfoComp = ({ user }) => {
               className="form-control form-select form-control-solid form-control-lg form-cu-padding"
               id="mstatus"
               defaultValue={mstat}
-              onChange={(val)=> setMstat(val.target.value)}
+              onChange={val => setMstat(val.target.value)}
               aria-label="Mr."
             >
               <option value="0">Mrs.</option>
@@ -88,19 +91,20 @@ const OtherInfoComp = ({ user }) => {
         </Form.Group>
 
         <Form.Group as={Row}>
-          <label className="col-xl-3 col-lg-3 col-form-label">
-            Mother MEC ID
-          </label>
-          <div className="col-lg-6 col-xl-6">
+          <label className="col-xl-3 col-form-label">Mother MEC ID</label>
+          <div className="col-lg-5">
             <Form.Control
               type="text"
               id="mmecID"
-              required={((mstat==0) && (dob>1987))}
+              required={mstat == 0 && dob > 1987}
               defaultValue={user.mmecID}
               className="form-control-solid"
               placeholder="Enter mother mec id"
               size="lg"
             />
+          </div>
+          <div className="col-lg-2">
+            <Button>Verify</Button>
           </div>
         </Form.Group>
       </div>

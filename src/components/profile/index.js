@@ -3,6 +3,9 @@ import { Container, Navbar, Row, Col, Button } from "react-bootstrap"
 import LeftPage from "./left.js"
 import RightPage from "./right"
 import Registration from "./registration/index"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons"
+import { logout } from "../../services/logauth"
 import * as ProfileCss from "./index.module.scss"
 
 const ProfileIndexPage = ({ user, refreshPage }) => {
@@ -34,6 +37,7 @@ const ProfileIndexPage = ({ user, refreshPage }) => {
             <span className={ProfileCss.nameBox}>
               {user.name.substring(0, 1)}
             </span>
+            <FontAwesomeIcon onClick={() => logout()} className={ProfileCss.logout} icon={faSignOutAlt} />
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
