@@ -30,14 +30,13 @@ const DocUploadPage = () => {
       })
       .then(val => {
         setDocs(val.data.docs)
-        setSuccessMsg("Uploaded Successfully")
+        
         setDataSendingStatus(false)
-        setSuccessStatus(true)
+        //    setSuccessStatus(true)
       })
       .catch(error => {
-        setSuccessMsg("")
         setDataSendingStatus(false)
-        setSuccessStatus(false)
+        // setSuccessStatus(false)
       })
   }
 
@@ -66,6 +65,7 @@ const DocUploadPage = () => {
         .then(val => {
           getDocs()
           setSuccessStatus(true)
+          setSuccessMsg("Uploaded Successfully")
           setDataSendingStatus(false)
           event.target.reset()
         })
@@ -101,7 +101,7 @@ const DocUploadPage = () => {
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       {!isSuccess ? (
         <Alert variant="danger">Something Went Wrong</Alert>
-      ) : successMsg.length ? (
+      ) : successMsg.length ==0 ? (
         <></>
       ) : (
         <Alert variant="success">{successMsg}</Alert>

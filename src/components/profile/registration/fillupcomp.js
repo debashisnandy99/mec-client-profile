@@ -6,14 +6,27 @@ import OtherInfo from "./otherinfo"
 import AddressInfo from "./addressinfo"
 import UploadFiles from "./uploadfiles"
 
-const FillUpComp = ({thirdForm, secondForm, formNumber, firstForm }) => {
+const FillUpComp = ({
+  thirdForm,
+  secondForm,
+  formNumber,
+  firstForm,
+  validateFmec,
+  validateMmec,
+}) => {
   switch (formNumber) {
     case 0:
-      return <BasicInfo user={firstForm}/>
+      return <BasicInfo user={firstForm} />
     case 1:
       return <AddressInfo user={secondForm} />
     case 2:
-      return <OtherInfo user={thirdForm}/>
+      return (
+        <OtherInfo
+          validateFMainmec={val => validateFmec(val)}
+          validateMMainmec={val => validateMmec(val)}
+          user={thirdForm}
+        />
+      )
     case 3:
       return <UploadFiles />
     default:

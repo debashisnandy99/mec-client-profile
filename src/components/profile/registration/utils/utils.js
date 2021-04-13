@@ -65,8 +65,8 @@ export const thirdFormSubmit = async formData => {
       {
         mname: formData.mname,
         fname: formData.fname,
-        fathersMecId: formData.fmecID,
-        mothersMecId: formData.mmecID,
+        fmecID: formData.fmecID,
+        mmecID: formData.mmecID,
         fstatus: formData.fstatus,
         mstatus: formData.mstatus,
       },

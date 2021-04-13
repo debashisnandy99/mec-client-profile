@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Card, ProgressBar, Form } from "react-bootstrap"
 import * as RightCss from "../right.module.scss"
 import {
@@ -14,6 +14,8 @@ const IndexPage = ({ setIsFinish, user }) => {
   const [formNumber, setFormNumber] = useState(0)
   const [isSuccess, setSuccessStatus] = useState(false)
   const [successMsg, setSuccessMsg] = useState("")
+  const [isValidFmec, validateFmec] = useState()
+  const [isValidMmec, validateMmec] = useState()
   const [isDataSending, setDataSendingStatus] = useState(false)
   const [validated, setValidated] = useState(false)
   const [firstForm, setFirstForm] = useState({
@@ -24,6 +26,7 @@ const IndexPage = ({ setIsFinish, user }) => {
     phone: user.phone,
     email: !user.email ? "" : user.email,
   })
+
   const [secondForm, setSecondForm] = useState({
     address: !user.address ? "" : user.address,
     district: !user.district ? "" : user.district,
@@ -42,10 +45,22 @@ const IndexPage = ({ setIsFinish, user }) => {
     mmecID: !user.mothersMecId ? "" : user.mothersMecId,
     dob: firstForm.dob,
   })
+  const [isOneTime, setOneTime] = useState(true)
+  useEffect(() => {
+    if (isOneTime) {
+      validateFmec(false)
+      validateMmec(false)
+      setOneTime(false)
+    }
+  })
+  if (isValidFmec) {
+    console.log("Hello father")
+  }
   const handleSubmit = event => {
     const form = event.currentTarget
 
     setDataSendingStatus(true)
+
     if (form.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
@@ -116,34 +131,15 @@ const IndexPage = ({ setIsFinish, user }) => {
           setDataSendingStatus(false)
         })
       } else if (formNumber == 2) {
-        thirdFormSubmit({
-          mname: target.mname.value,
-          fname: target.faname.value,
-          fmecID: target.fmecID.value,
-          mmecID: target.mmecID.value,
-          mstatus: target.mstatus.value,
-          fstatus: target.fstatus.value,
-        }).then(val => {
-          if (val) {
-            setThirdForm({
-              mname: target.mname.value,
-              fname: target.faname.value,
-              fmecID: target.fmecID.value,
-              mmecID: target.mmecID.value,
-              mstatus: target.mstatus.value,
-              fstatus: target.fstatus.value,
-              dob: firstForm.dob,
-            })
-            if (formNumber != 3) {
-              setFormNumber(formNumber + 1)
-            } else {
-              setIsFinish(true)
-            }
-            setValidated(false)
-          }
-
+        if (target.mstatus.value != 0 && target.fstatus.value != 0) {
+          thirdFormSu(target)
+        } else if (isValidFmec && isValidMmec) {
+          console.log(isValidFmec + "Hello")
+          thirdFormSu(target)
+        } else {
+          setValidated(true)
           setDataSendingStatus(false)
-        })
+        }
       } else if (formNumber == 3) {
         let form_data = new FormData()
         form_data.append("photo", target.images.files[0])
@@ -159,8 +155,43 @@ const IndexPage = ({ setIsFinish, user }) => {
       }
     }
   }
+
+  const thirdFormSu = target => {
+    thirdFormSubmit({
+      mname: target.mname.value,
+      fname: target.faname.value,
+      fmecID: !target.fmecID ? "" : target.fmecID.value,
+      mmecID: !target.mmecID ? "" : target.mmecID.value,
+      mstatus: target.mstatus.value,
+      fstatus: target.fstatus.value,
+    }).then(val => {
+      if (val) {
+        setThirdForm({
+          mname: target.mname.value,
+          fname: target.faname.value,
+          fmecID: !target.fmecID ? "" : target.fmecID.value,
+          mmecID: !target.mmecID ? "" : target.mmecID.value,
+          mstatus: target.mstatus.value,
+          fstatus: target.fstatus.value,
+          dob: firstForm.dob,
+        })
+        if (formNumber != 3) {
+          setFormNumber(formNumber + 1)
+        } else {
+          setIsFinish(true)
+        }
+        setValidated(false)
+      }
+
+      setDataSendingStatus(false)
+    })
+  }
   return (
-    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    <Form
+      noValidate
+      validated={formNumber == 2 ? false : validated}
+      onSubmit={handleSubmit}
+    >
       <Card>
         <div
           className={`${RightCss.customCrdFooter} card-header d-flex justify-content-between align-items-center`}
@@ -200,6 +231,11 @@ const IndexPage = ({ setIsFinish, user }) => {
             secondForm={secondForm}
             firstForm={firstForm}
             formNumber={formNumber}
+            validateFmec={val => {
+              console.log("Hello FFF")
+              validateFmec(val)
+            }}
+            validateMmec={val => validateMmec(val)}
           />
         </Card.Body>
       </Card>

@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Container, Navbar, Row, Col, Button } from "react-bootstrap"
+import React, { useState, useEffect } from "react"
+import { Container, Navbar, Row, Col, Button, Dropdown } from "react-bootstrap"
 import LeftPage from "./left.js"
 import RightPage from "./right"
 import Registration from "./registration/index"
@@ -11,6 +11,16 @@ import * as ProfileCss from "./index.module.scss"
 const ProfileIndexPage = ({ user, refreshPage }) => {
   const [navOptions, setNavOptions] = useState(0)
   const [isFinished, setIsFinish] = useState(true)
+  const [width, setWidth] = useState(window.innerWidth)
+  const [height, setHeight] = useState(window.innerHeight)
+  const updateDimensions = () => {
+    setWidth(window.innerWidth)
+    setHeight(window.innerHeight)
+  }
+  useEffect(() => {
+    window.addEventListener("resize", updateDimensions)
+    return () => window.removeEventListener("resize", updateDimensions)
+  }, [])
   const loadUser = () => {}
   // console.log(navOptions)
   return (
@@ -33,11 +43,18 @@ const ProfileIndexPage = ({ user, refreshPage }) => {
             </Button>
           )}
           <Navbar.Text>
-            Hi, <span className={ProfileCss.boldText}>{user.name}</span>{" "}
-            <span className={ProfileCss.nameBox}>
-              {user.name.substring(0, 1)}
-            </span>
-            <FontAwesomeIcon onClick={() => logout()} className={ProfileCss.logout} icon={faSignOutAlt} />
+            <Dropdown>
+              <Dropdown.Toggle className={ProfileCss.dropdown} >
+                Hi, <span className={ProfileCss.boldText}>{user.name}</span>{" "}
+                <span className={ProfileCss.nameBox}>
+                  {user.name.substring(0, 1)}
+                </span>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
@@ -67,7 +84,7 @@ const ProfileIndexPage = ({ user, refreshPage }) => {
       </Container>
       <footer
         style={{
-          position: "fixed",
+          position: height < 730 ? "relative" : "fixed",
           left: 0,
           bottom: 0,
         }}

@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react"
-import { Card, Container, ProgressBar, Col, Row } from "react-bootstrap"
+import {
+  Card,
+  Container,
+  ProgressBar,
+  Col,
+  Row,
+  Modal,
+  Button,
+} from "react-bootstrap"
+import * as FileSaver from "file-saver"
 import * as RightCss from "../right.module.scss"
 import * as LeftCss from "../left.module.scss"
 import axios from "../../../services/api"
@@ -12,6 +21,7 @@ const DisplayDocsPage = ({ user }) => {
   const [isDataSending, setDataSendingStatus] = useState(false)
   const [oneTime, setTime] = useState(true)
   const [docs, setDocs] = useState([])
+  const [modalShow, setModalShow] = React.useState({ show: false, url: "" })
 
   useEffect(() => {
     if (oneTime) {
@@ -80,7 +90,7 @@ const DisplayDocsPage = ({ user }) => {
       <Row>
         {docs.map((val, idx) => {
           return (
-            <Col md={6}>
+            <Col key={idx} md={6} className={`${idx == 2 ? "mt-3" : ""}`}>
               <Card
                 style={{
                   minHeight: "100%",
@@ -109,7 +119,14 @@ const DisplayDocsPage = ({ user }) => {
                           height: "100%",
                           width: "100%",
                           borderRadius: "8px",
+                          cursor: "pointer"
                         }}
+                        onClick={() =>
+                          setModalShow({
+                            show: true,
+                            url: url() + "/" + val.file,
+                          })
+                        }
                         src={url() + "/" + val.file}
                         alt="profile"
                       ></img>
@@ -121,7 +138,43 @@ const DisplayDocsPage = ({ user }) => {
           )
         })}
       </Row>
+      <ModalForImageShow
+        modalData={modalShow}
+        onHide={() => setModalShow({ show: false, url: "" })}
+      />
     </Container>
+  )
+}
+
+function ModalForImageShow({ modalData, onHide }) {
+  const downloadFile = () => {
+    FileSaver.saveAs(modalData.url, "image.jpg");
+    onHide()
+  }
+  return (
+    <Modal
+      show={modalData.show}
+      onHide={onHide}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      
+      <Modal.Body >
+        <Row className="d-flex justify-content-center"> <img
+          style={{
+            height: "100%",
+            width: "80%",
+            borderRadius: "8px",
+          }}
+          src={modalData.url}
+          alt="profile"
+        ></img></Row>
+        <Row className="d-flex justify-content-center"><Button size="sm" variant="success" onClick={downloadFile}>Download</Button> </Row>
+        
+      </Modal.Body>
+     
+    </Modal>
   )
 }
 
