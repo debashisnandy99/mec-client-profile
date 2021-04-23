@@ -12,7 +12,8 @@ import * as FileSaver from "file-saver"
 import * as RightCss from "../right.module.scss"
 import * as LeftCss from "../left.module.scss"
 import axios from "../../../services/api"
-import { url } from "../../../services/details"
+import ipfsaxios from "../../../services/ipfsapi"
+import { url, ipfsUrl } from "../../../services/details"
 import { getUser } from "../../../services/logauth"
 
 const DisplayDocsPage = ({ user }) => {
@@ -21,6 +22,8 @@ const DisplayDocsPage = ({ user }) => {
   const [isDataSending, setDataSendingStatus] = useState(false)
   const [oneTime, setTime] = useState(true)
   const [docs, setDocs] = useState([])
+  const [ipfs, setIpfs] = React.useState()
+  const [imageList, setImageList] = React.useState()
   const [modalShow, setModalShow] = React.useState({ show: false, url: "" })
 
   useEffect(() => {
@@ -46,6 +49,39 @@ const DisplayDocsPage = ({ user }) => {
         setDataSendingStatus(false)
         setSuccessStatus(false)
       })
+
+    if (user.mecId) {
+      axios
+        .get("/auth/getValidateDetails", {
+          headers: {
+            "content-type": "multipart/form-data",
+            Authorization: `Bearer ${getUser().token}`,
+          },
+        })
+        .then(res => {
+          setIpfs(res.data.ipfsHash)
+          console.log(res.data)
+          return ipfsaxios.post("/api/v0/ls?arg=" + res.data.ipfsHash)
+        })
+        .then(res => {
+          let imageList = {}
+          console.log(res)
+          res.data.Objects[0].Links.forEach(value => {
+            const imageName = value.Name.toString()
+            if (imageName.includes("adhaar")) {
+              imageList["adhaar"] = imageName
+            } else if (imageName.includes("pan")) {
+              imageList["pan"] = imageName
+            } else if (imageName.includes("birth")) {
+              imageList["birth"] = imageName
+            }
+          })
+          setImageList(imageList)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
   }
 
   const cardName = name => {
@@ -103,11 +139,17 @@ const DisplayDocsPage = ({ user }) => {
                       <h6>{cardName(val.depId.name).sub}</h6>
                       <p className="text-muted">{val.docId}</p>
                       <div className="mt-2">
-                        <span className={`${LeftCss.dot} align-middle`}></span>
+                        <span
+                          className={`${
+                            val.status == "verified"
+                              ? LeftCss.dotV
+                              : LeftCss.dot
+                          } align-middle`}
+                        ></span>
                         <span
                           className={`${LeftCss.genderFont} pl-2 text-muted align-middle`}
                         >
-                          Not Verified
+                          {val.status}
                         </span>
                       </div>
                     </div>
@@ -119,15 +161,25 @@ const DisplayDocsPage = ({ user }) => {
                           height: "100%",
                           width: "100%",
                           borderRadius: "8px",
-                          cursor: "pointer"
+                          cursor: "pointer",
                         }}
                         onClick={() =>
                           setModalShow({
                             show: true,
-                            url: url() + "/" + val.file,
+                            url: imageList
+                              ? `${ipfsUrl()}/ipfs/${ipfs}/${
+                                  imageList[val.depId.name]
+                                }`
+                              : url() + "/" + val.file,
                           })
                         }
-                        src={url() + "/" + val.file}
+                        src={
+                          imageList
+                            ? `${ipfsUrl()}/ipfs/${ipfs}/${
+                                imageList[val.depId.name]
+                              }`
+                            : url() + "/" + val.file
+                        }
                         alt="profile"
                       ></img>
                     </div>
@@ -148,7 +200,7 @@ const DisplayDocsPage = ({ user }) => {
 
 function ModalForImageShow({ modalData, onHide }) {
   const downloadFile = () => {
-    FileSaver.saveAs(modalData.url, "image.jpg");
+    FileSaver.saveAs(modalData.url, "image.jpg")
     onHide()
   }
   return (
@@ -159,21 +211,33 @@ function ModalForImageShow({ modalData, onHide }) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      
-      <Modal.Body >
-        <Row className="d-flex justify-content-center"> <img
-          style={{
-            height: "100%",
-            width: "80%",
-            borderRadius: "8px",
-          }}
-          src={modalData.url}
-          alt="profile"
-        ></img></Row>
-        <Row className="d-flex justify-content-center"><Button size="sm" variant="success" onClick={downloadFile}>Download</Button> </Row>
-        
+      <Modal.Body>
+        <Row className="d-flex justify-content-center">
+          {" "}
+          <img
+            style={{
+              height: "100%",
+              width: "80%",
+              borderRadius: "8px",
+            }}
+            src={modalData.url}
+            alt="profile"
+          ></img>
+        </Row>
+        <Row className="d-flex justify-content-center my-3">
+          <Button size="sm" variant="success" onClick={downloadFile}>
+            Download
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="ml-2"
+            onClick={onHide}
+          >
+            Close
+          </Button>
+        </Row>
       </Modal.Body>
-     
     </Modal>
   )
 }

@@ -17,7 +17,7 @@ const RightPage = ({ currentNav, user }) => {
     } else if(currentNav === 2) {
         return (<OthersPage user={user}/>);
     } else if(currentNav === 3) {
-        return (<DisplayDocs/>);
+        return (<DisplayDocs user={user}/>);
     } else if(currentNav === 4) {
         return (<DocUploadPage/>);
     }

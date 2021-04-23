@@ -17,7 +17,7 @@ const AuthPage = ({ setLoginStatus }) => {
             {isLogin ? (
               <LoginPage setLoginStatus={val => setLoginStatus(val)} />
             ) : (
-              <RegPage />
+              <RegPage setLoginStatus={val => setPageStatus(val)}/>
             )}
           </Col>
         </Row>

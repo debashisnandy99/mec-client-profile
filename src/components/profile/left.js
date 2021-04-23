@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Card } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -8,13 +8,53 @@ import {
   faVectorSquare,
   faFileUpload,
 } from "@fortawesome/free-solid-svg-icons"
-import { url } from "../../services/details"
+import { url, ipfsUrl } from "../../services/details"
+import ipfsaxios from "../../services/ipfsapi"
+import axios from "../../services/api"
+import { getUser } from "../../services/logauth"
 import * as LeftCss from "./left.module.scss"
 
 const LeftPage = ({ changeNavListener, currentNav, user }) => {
   const [isDocSelected, setDocSelected] = useState(false)
   const [activeDocSubElement, setActiveDocSubElement] = useState(true)
+  const [ipfs, setIpfs] = React.useState()
+  const [imageList, setImageList] = React.useState()
+  const [oneTime, setTime] = React.useState(true)
   const gender = ["MALE", "FEMALE", "OTHERS"]
+
+  useEffect(() => {
+    if (oneTime) {
+      if (user.mecId) {
+        setTime(false)
+        axios
+          .get("/auth/getValidateDetails", {
+            headers: {
+              "content-type": "multipart/form-data",
+              Authorization: `Bearer ${getUser().token}`,
+            },
+          })
+          .then(res => {
+            setIpfs(res.data.ipfsHash)
+            console.log(res.data)
+            return ipfsaxios.post("/api/v0/ls?arg=" + res.data.ipfsHash)
+          })
+          .then(res => {
+            let imageList = {}
+            console.log(res)
+            res.data.Objects[0].Links.forEach(value => {
+              const imageName = value.Name.toString()
+              if (imageName.includes("profile")) {
+                imageList["profile"] = imageName
+              }
+            })
+            setImageList(imageList)
+          })
+          .catch(e => {
+            console.log(e)
+          })
+      }
+    }
+  })
 
   const renderIcon = idx => {
     if (idx == 0) {
@@ -55,7 +95,13 @@ const LeftPage = ({ changeNavListener, currentNav, user }) => {
           <div className="mr-3">
             <img
               className={LeftCss.profileAvater}
-              src={user.photo ? url() + "/" + user.photo : imgUrl}
+              src={
+                imageList
+                  ? `${ipfsUrl()}/ipfs/${ipfs}/${imageList["profile"]}`
+                  : user.photo
+                  ? url() + "/" + user.photo
+                  : imgUrl
+              }
               alt="profile"
             ></img>
           </div>
@@ -65,11 +111,11 @@ const LeftPage = ({ changeNavListener, currentNav, user }) => {
               {gender[user.gender]}
             </p>
             <div className="mt-2">
-              <span className={`${LeftCss.dot} align-middle`}></span>
+              <span className={`${user.isMecVerify == "verified"? LeftCss.dotV : LeftCss.dot} align-middle`}></span>
               <span
                 className={`${LeftCss.genderFont} pl-2 text-muted align-middle`}
               >
-                Not Verified
+                {user.isMecVerify}
               </span>
             </div>
           </div>
@@ -80,7 +126,7 @@ const LeftPage = ({ changeNavListener, currentNav, user }) => {
             <span
               style={{
                 wordBreak: "break-all",
-                textAlign: "right"
+                textAlign: "right",
               }}
               className={`${LeftCss.genderFont} text-muted`}
             >

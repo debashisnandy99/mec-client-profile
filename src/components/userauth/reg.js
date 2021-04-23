@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import {
   Form,
   Button,
@@ -14,14 +14,14 @@ import { navigate, Link } from "gatsby"
 import "firebase/auth"
 import axios from "../../services/api"
 
-if(typeof window !== "undefined") {
+if (typeof window !== "undefined") {
   firebase.auth().useDeviceLanguage()
 }
 const windowVar = {
   recaptchaVerifier: undefined,
   confirmationAuthResult: undefined,
 }
-const RegPage = () => {
+const RegPage = ({ setLoginStatus }) => {
   const [validated, setValidated] = useState(false)
   const [validatedOtp, setValidatedOtp] = useState(false)
   const [validationOtpMessage, setValidatedOtpMessage] = useState(
@@ -108,14 +108,18 @@ const RegPage = () => {
           setSuccessMsg(
             "User Created Successfully. Please Login to your dashboard"
           )
-          
           setSuccessStatus(true)
           setDataSendingStatus(false)
+          setTimeout(() => {
+            setLoginStatus(true)
+          }, 2000)
         })
         .catch(err => {
           setDataSendingStatus(false)
+          setSuccessStatus(false)
           if (err.response != undefined)
             setSuccessMsg(err.response.data.data[0].msg)
+          else setSuccessMsg("Something went wrong")
         })
     }
   }
@@ -258,7 +262,7 @@ const RegPage = () => {
         <Form.Group className="mb-3">
           <Form.Label>Phone Number*</Form.Label>
           <Row>
-            <Col md={10}>
+            <Col md={9}>
               <Form.Control
                 required
                 type="tel"
@@ -276,7 +280,7 @@ const RegPage = () => {
                 Please verify this number
               </Form.Control.Feedback>
             </Col>
-            <Col md={2}>
+            <Col md={3}>
               <div className="w-100" ref={ref}>
                 <Button
                   onClick={handleClick}

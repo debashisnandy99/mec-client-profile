@@ -26,7 +26,7 @@ const ProfileIndexPage = ({ user, refreshPage }) => {
   return (
     <div className={`${ProfileCss.backgroundDiv} full-container`}>
       <Navbar className={`${ProfileCss.navBg} py-3`} expand="lg">
-        <Navbar.Text>MEC ID: Unavailable</Navbar.Text>
+        <Navbar.Text>MEC ID: {user.mecId ? user.mecId : 'Unavailable'}</Navbar.Text>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           {user.isVerified ? (
