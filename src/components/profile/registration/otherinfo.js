@@ -4,6 +4,7 @@ import axios from "../../../services/api"
 import { Container, Form, Row, Button, Spinner } from "react-bootstrap"
 
 const OtherInfoComp = ({ user, validateFMainmec, validateMMainmec }) => {
+  
   const [fstat, setFstat] = useState(user.mstatus)
   const [mstat, setMstat] = useState(user.fstatus)
   const [isValidFmec, validateFmec] = useState(false)
@@ -81,7 +82,7 @@ const OtherInfoComp = ({ user, validateFMainmec, validateMMainmec }) => {
             <select
               className="form-control form-select form-control-solid form-control-lg form-cu-padding"
               id="fstatus"
-              defaultValue={fstat}
+              defaultValue={user.fstatus}
               onChange={val => setFstat(val.target.value)}
               aria-label="Mr."
             >
@@ -102,60 +103,64 @@ const OtherInfoComp = ({ user, validateFMainmec, validateMMainmec }) => {
             />
           </div>
         </Form.Group>
-        {fstat == 0 ? (
-          <Form.Group as={Row}>
-            <label className="col-lg-3 col-form-label">Father MEC ID</label>
-            <div className="col-lg-5">
-              <Form.Control
-                type="text"
-                id="fmecID"
-                value={fatherMecId}
-                onChange={val => {
-                  if (val.target.value.length == 0 && fstat != 0) {
-                    validateFMainmec(true)
-                  } else if (val.target.value.length == 1 && fstat != 0) {
-                    validateFMainmec(false)
-                  }
 
-                  if (fstat == 0) {
-                    setFatherMecMsg("Please Verify The MECID")
-                    validateFmec(true)
-                  }
-                  setFatherMecId(val.target.value)
+        <Form.Group as={Row}>
+          <label className="col-lg-3 col-form-label">Father MEC ID</label>
+          <div className="col-lg-5">
+            <Form.Control
+              type="text"
+              id="fmecID"
+              value={fatherMecId}
+              onChange={val => {
+                if (val.target.value.length == 0 && fstat != 0) {
+                  validateFMainmec(true)
+                } else if (val.target.value.length == 1 && fstat != 0) {
+                  validateFMainmec(false)
+                }
+
+                if (fstat == 0) {
+                  setFatherMecMsg("Please Verify The MECID")
+                  validateFmec(true)
+                }
+                setFatherMecId(val.target.value)
+              }}
+              className="form-control-solid"
+              placeholder="Enter father mec id"
+              size="lg"
+            />
+            {isValidFmec ? (
+              <p className="text-danger mt-2 pb-0 mb-0">{fatherMecMsg}</p>
+            ) : (
+              <p
+                className="mb-0 pb-0 mt-2 text-secondary"
+                style={{
+                  fontSize: "13px",
                 }}
-                required={fstat == 0 && dob > 1987}
-                className="form-control-solid"
-                placeholder="Enter father mec id"
-                size="lg"
+              >
+                {mecMsg}
+              </p>
+            )}
+          </div>
+          <div className="col-lg-2">
+            {isDataSendingF ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
               />
-              {isValidFmec ? (
-                <p className="text-danger pb-0 mb-0">{fatherMecMsg}</p>
-              ) : (
-                <p className="mb-0 pb-0 text-secondary">{mecMsg}</p>
-              )}
-            </div>
-            <div className="col-lg-2">
-              {isDataSendingF ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              ) : (
-                <Button
-                  onClick={() => verifyMecId("f")}
-                  disabled={isDataSendingM}
-                >
-                  Verify
-                </Button>
-              )}
-            </div>
-          </Form.Group>
-        ) : (
-          <></>
-        )}
+            ) : (
+              <Button
+                onClick={() => verifyMecId("f")}
+                disabled={isDataSendingM}
+              >
+                Verify
+              </Button>
+            )}
+          </div>
+        </Form.Group>
+
         <Form.Group as={Row}>
           <label className="col-xl-3 col-lg-3 col-form-label">
             Mother Name
@@ -164,7 +169,7 @@ const OtherInfoComp = ({ user, validateFMainmec, validateMMainmec }) => {
             <select
               className="form-control form-select form-control-solid form-control-lg form-cu-padding"
               id="mstatus"
-              defaultValue={mstat}
+              defaultValue={user.mstatus}
               onChange={val => setMstat(val.target.value)}
               aria-label="Mr."
             >
@@ -185,60 +190,63 @@ const OtherInfoComp = ({ user, validateFMainmec, validateMMainmec }) => {
             />
           </div>
         </Form.Group>
-        {mstat == 0 ? (
-          <Form.Group as={Row}>
-            <label className="col-xl-3 col-form-label">Mother MEC ID</label>
-            <div className="col-lg-5">
-              <Form.Control
-                type="text"
-                id="mmecID"
-                value={motherMecId}
-                onChange={val => {
-                  if (val.target.value.length == 0 && mstat != 0) {
-                    validateMMainmec(true)
-                  } else if (val.target.value.length == 0 && mstat != 0) {
-                    validateMMainmec(false)
-                  }
 
-                  if (mstat == 0) {
-                    setMotherMecMsg("Please Verify The MECID")
-                    validateMmec(true)
-                  }
-                  setMotherMecId(val.target.value)
+        <Form.Group as={Row}>
+          <label className="col-xl-3 col-form-label">Mother MEC ID</label>
+          <div className="col-lg-5">
+            <Form.Control
+              type="text"
+              id="mmecID"
+              value={motherMecId}
+              onChange={val => {
+                if (val.target.value.length == 0 && mstat != 0) {
+                  validateMMainmec(true)
+                } else if (val.target.value.length == 0 && mstat != 0) {
+                  validateMMainmec(false)
+                }
+
+                if (mstat == 0) {
+                  setMotherMecMsg("Please Verify The MECID")
+                  validateMmec(true)
+                }
+                setMotherMecId(val.target.value)
+              }}
+              className="form-control-solid"
+              placeholder="Enter mother mec id"
+              size="lg"
+            />
+            {isValidMmec ? (
+              <p className="text-danger mt-2 pb-0 mb-0">{motherMecMsg}</p>
+            ) : (
+              <p
+                className="mb-0 mt-2 pb-0 text-secondary"
+                style={{
+                  fontSize: "13px",
                 }}
-                required={mstat == 0 && dob > 1987}
-                className="form-control-solid"
-                placeholder="Enter mother mec id"
-                size="lg"
+              >
+                {mecMMsg}
+              </p>
+            )}
+          </div>
+          <div className="col-lg-2">
+            {isDataSendingM ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
               />
-              {isValidMmec ? (
-                <p className="text-danger pb-0 mb-0">{motherMecMsg}</p>
-              ) : (
-                <p className="mb-0 pb-0 text-secondary">{mecMMsg}</p>
-              )}
-            </div>
-            <div className="col-lg-2">
-              {isDataSendingM ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              ) : (
-                <Button
-                  disabled={isDataSendingF}
-                  onClick={() => verifyMecId("m")}
-                >
-                  Verify
-                </Button>
-              )}
-            </div>
-          </Form.Group>
-        ) : (
-          <></>
-        )}
+            ) : (
+              <Button
+                disabled={isDataSendingF}
+                onClick={() => verifyMecId("m")}
+              >
+                Verify
+              </Button>
+            )}
+          </div>
+        </Form.Group>
       </div>
     </Container>
   )
